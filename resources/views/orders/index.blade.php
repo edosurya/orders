@@ -46,6 +46,7 @@
                         <th><b>Payment</b></th>
                         <th><b>Fulfillment Status</b></th>
                         <th><b>Total price</b></th>
+                        <th><b>Action</b></th>
                       </tr>
                     </thead>
                     <tbody id="tbody">
@@ -72,8 +73,83 @@
                               <span class="badge bg-success me-1"></span>{{$order->fulfillment}}</span>
                             @endif
                           </td>
-                          <td>IDR {{$order->total}}</td>
+                          <td>IDR {{$order->total_pembayaran}}</td>
+                          <td><a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#edit-{{$order->id}}">Edit</a></td>
                         </tr>
+
+
+    <!-- edit order -->
+    <div class="modal modal-blur fade" id="edit-{{$order->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Order</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+          {{ Form::open(array('route' => array('edit', $order->id), 'method' => 'PUT')) }}
+        
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="mb-3">
+                  <label class="form-label">Customer Name</label>
+                  <input type="text" class="form-control" name="name" value="{{ $order->name }}">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Customer Email</label>
+                  <input type="text" class="form-control" name="email" value="{{ $order->email }}">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Customer Contact</label>
+                  <input type="text" class="form-control" name="telp" value="{{ $order->telp }}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Payment Status</label>
+                  <select class="form-select" name="payment">
+                    <option value="unpaid" @if($order->payment == 'unpaid') selected @endif>Unpaid</option>
+                    <option value="paid" @if($order->payment == 'paid') selected @endif>Paid</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-3">
+                  <label class="form-label">Fulfillment</label>
+                  <select class="form-select" name="fulfillment">
+                    <option value="unfulfilled" @if($order->fulfillment == 'unfulfilled') selected @endif>Unfulfillment</option>
+                    <option value="fulfilled" @if($order->fulfillment == 'fulfilled') selected @endif>Fulfillment</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <label class="form-label">Total</label>
+              <div class="input-group mb-2">
+                <span class="input-group-text">
+                  IDR
+                </span>
+                <input type="text" class="form-control" placeholder="Total" autocomplete="off" name="total" value ="{{ $order->total_pembayaran}}">
+              </div>
+            </div>
+          </div>
+     
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+          </div>
+
+          {{ Form::close() }}
+        </div>
+      </div>
+    </div>
+
                       @endforeach
                     </tbody>
                   </table>
@@ -96,7 +172,7 @@
 
           <div class="modal-body">
           {{ Form::open(array('url' => '/', 'method' => 'POST')) }}
-          @csrf
+        
             <div class="row">
               <div class="col-lg-12">
                 <div class="mb-3">

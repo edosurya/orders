@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MahasiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [OrderController::class, 'index'])->name('home');
 Route::post('/', [OrderController::class, 'store'])->name('add');
+Route::put('/edit/{id}', [OrderController::class, 'update'])->name('edit');
 Route::get('/search', [OrderController::class, 'search'])->name('search');
+
+
+Route::get('/edit/{id}', [OrderController::class, 'edit'])->name('edit.view');

@@ -22,7 +22,7 @@ class CreateTableOrders extends Migration
             $table->string('telp');
             $table->enum('payment', ['unpaid', 'paid']);
             $table->enum('fulfillment', ['unfulfilled', 'fulfilled']);
-            $table->double('total',10,2);
+            $table->double('total_pembayaran',10,2);
             $table->timestamps();
         });
     }

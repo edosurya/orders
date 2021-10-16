@@ -19,11 +19,26 @@ class OrderApiController extends Controller
     public function index(Request $request)
     {
         $payment = $request->get('payment');
+        $q          = $request->get('q');
+        $date       = $request->get('date');
+        $name       = $request->get('name');
 
-        $orders = Order::orderBy('date', 'DESC')->orderBy('name','DESC');
+        $orders = DB::table('orders');
 
         if($payment){
             $orders = $orders->where("payment", "$payment");
+        }
+
+        if($q){
+            $orders = $orders->where("invoice_number", "LIKE", "%$q%")->orWhere("name", "LIKE", "%$q%");
+        }
+
+        if($date) {
+            $orders = $orders->orderBy('date', $date);
+        }elseif($name){
+             $orders = $orders->orderBy('name', $name);
+        } else {
+             $orders = $orders->orderBy('date', 'DESC')->orderBy('name','DESC');
         }
 
         $orders = $orders->get();

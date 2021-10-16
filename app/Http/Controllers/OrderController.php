@@ -76,6 +76,9 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request = $request->all();
+
+        // Order::create($request);
+
         $order = New Order;
 
         $order->name = $request['name'];
@@ -85,8 +88,8 @@ class OrderController extends Controller
         $order->fulfillment = $request['fulfillment'];
         $order->date = date("Y-m-d H:i:s");
         $order->invoice_number = $this->generateRandomString();
-        $order->total =  $request['total'];
-        // dd($order);
+        $order->total_pembayaran =  $request['total'];
+
         $order->save();
 
         return redirect()->route('home');
@@ -111,9 +114,8 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        $order = \App\Models\Order::findOrFail($id);
-
-        return view('orders.edit', ['order' => $order]);
+        $order = Order::findOrFail($id);
+        dd($order);
     }
 
     /**
@@ -125,7 +127,20 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request = $request->all();
+
+        $order = Order::findOrFail($id);
+
+        $order->name = $request['name'];
+        $order->email = $request['email'];
+        $order->telp = $request['telp'];
+        $order->payment = $request['payment'];
+        $order->fulfillment = $request['fulfillment'];
+        $order->total_pembayaran =  $request['total'];
+
+        $order->save();
+
+        return redirect()->route('home');
     }
 
     /**
