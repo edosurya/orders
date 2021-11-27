@@ -171,7 +171,7 @@
           </div>
 
           <div class="modal-body">
-          {{ Form::open(array('url' => '/', 'method' => 'POST')) }}
+          {{ Form::open(array('url' => 'admin/', 'method' => 'POST')) }}
         
             <div class="row">
               <div class="col-lg-12">
